@@ -19,5 +19,9 @@ func main() {
 	router.POST("/filter", Filter)
 	router.POST("/prioritize", Prioritize)
 
-	log.Fatal(http.ListenAndServe(":8888", router))
+	log.Print("info: server starting on the port :8888")
+	if err := http.ListenAndServe(":8888", router); err != nil {
+		log.Fatal(err)
+	}
+
 }

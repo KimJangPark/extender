@@ -17,6 +17,7 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func Filter(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	fmt.Println("enter into func Filter")
 	var buf bytes.Buffer
 	body := io.TeeReader(r.Body, &buf)
 	var extenderArgs schedulerapi.ExtenderArgs

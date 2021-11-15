@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/julienschmidt/httprouter"
+	"flag"
 )
 
 func init() {
@@ -14,6 +15,12 @@ func init() {
 }
 
 func main() {
+	// get bandwidth
+	// flag.Int(flag, default, explaination)
+	pointer_bandwidth = flag.Int("b", 10, "minimum bandwidth")
+	flag.Parse()
+	minBandwidth = *pointer_bandwidth
+
 	router := httprouter.New()
 	router.GET("/", Index)
 	router.POST("/filter", Filter)

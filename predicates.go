@@ -13,15 +13,22 @@ const (
 	// LuckyPred rejects a node if you're not lucky ¯\_(ツ)_/¯
 	LuckyPred        = "Lucky"
 	LuckyPredFailMsg = "Well, you're not lucky"
+	BandPred = "Satisfy minimum bandwidth " + minBandwidth
+	BandPredFailMsg = "Unsatisfy minimum bandwidth " + minBandwidth
 )
 
+// var predicatesFuncs = map[string]FitPredicate{
+// 	LuckyPred: LuckyPredicate,
+// }
+
 var predicatesFuncs = map[string]FitPredicate{
-	LuckyPred: LuckyPredicate,
+	BandPred: BandPredicate,
 }
 
 type FitPredicate func(pod *v1.Pod, node v1.Node) (bool, []string, error)
 
-var predicatesSorted = []string{LuckyPred}
+// var predicatesSorted = []string{LuckyPred}
+var predicatesSorted = []string{BandPred}
 
 // filter filters nodes according to predicates defined in this extender
 // it's webhooked to pkg/scheduler/core/generic_scheduler.go#findNodesThatFitPod()
@@ -74,4 +81,15 @@ func LuckyPredicate(pod *v1.Pod, node v1.Node) (bool, []string, error) {
 	}
 	log.Printf("pod %v/%v is unlucky to fit on node %v\n", pod.Name, pod.Namespace, node.Name)
 	return false, []string{LuckyPredFailMsg}, nil
+}
+
+func BandPredicate(pod *v1.Pod, node v1.Node) (bool, []string, error) {
+	// how to get node's bandwidth???
+	// satisfy := (node.bandwidth >= minBandwidth)
+	if satisfy {
+		log.Printf("pod %v/%v is satisfied by minimum bandwidth " + minBandwidth " on node %v\n", pod.Name, pod.Namespace, node.Name)
+		return true, nil, nil
+	}
+	log.Printf("pod %v/%v is unsatisfied by minimum bandwidth " + minBandwidth " on node %v\n", pod.Name, pod.Namespace, node.Name)
+	return false, []string{BandPredFailMsg}, nil
 }

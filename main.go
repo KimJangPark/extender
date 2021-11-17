@@ -17,9 +17,15 @@ func init() {
 func main() {
 	// get bandwidth
 	// flag.Int(flag, default, explaination)
-	pointer_bandwidth = flag.Int("b", 10, "minimum bandwidth")
+	// pointer_bandwidth = flag.Int("b", 10, "minimum bandwidth")
+	worker1 := flag.Int("1", 100, "worker node1 bandwidth")
+	worker2 := flag.Int("2", 100, "worker node2 bandwidth")
+	worker3 := flag.Int("3", 100, "worker node3 bandwidth")
 	flag.Parse()
-	minBandwidth = *pointer_bandwidth
+	// minBandwidth = *pointer_bandwidth
+	worker1Bandwidth := *worker1
+	worker2Bandwidth := *worker2
+	worker3Bandwidth := *worker3
 
 	router := httprouter.New()
 	router.GET("/", Index)
